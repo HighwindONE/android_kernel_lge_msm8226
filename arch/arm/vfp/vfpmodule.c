@@ -810,6 +810,7 @@ static int __init vfp_init(void)
 
 static int __init vfp_rootfs_init(void)
 {
+
 #ifdef CONFIG_PROC_FS
 	static struct proc_dir_entry *procfs_entry;
 
