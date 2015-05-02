@@ -2125,9 +2125,6 @@ netdev_features_t netif_skb_features(struct sk_buff *skb)
 	__be16 protocol = skb->protocol;
 	netdev_features_t features = skb->dev->features;
 
-	if (skb_shinfo(skb)->gso_segs > skb->dev->gso_max_segs)
-		features &= ~NETIF_F_GSO_MASK;
-
 	if (!vlan_tx_tag_present(skb)) {
 		if (unlikely(protocol == htons(ETH_P_8021Q))) {
 			struct vlan_ethhdr *veh = (struct vlan_ethhdr *)skb->data;

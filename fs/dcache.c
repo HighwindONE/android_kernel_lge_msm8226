@@ -373,7 +373,7 @@ static struct dentry *d_kill(struct dentry *dentry, struct dentry *parent)
 	 * Inform ascending readers that we are no longer attached to the
 	 * dentry tree
 	 */
-	dentry->d_flags |= DCACHE_DISCONNECTED;
+	dentry->d_flags |= DCACHE_DENTRY_KILLED;
 	if (parent)
 		spin_unlock(&parent->d_lock);
 	dentry_iput(dentry);
@@ -1010,6 +1010,7 @@ void shrink_dcache_for_umount(struct super_block *sb)
 		shrink_dcache_for_umount_subtree(dentry);
 	}
 }
+
 
 /*
  * Search for at least 1 mount point in the dentry's subdirs.
