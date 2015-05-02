@@ -206,49 +206,16 @@ static const struct usb_device_id usb_interface_quirk_list[] = {
 	{ }  /* terminating entry must be last */
 };
 
-static bool usb_match_any_interface(struct usb_device *udev,
-				    const struct usb_device_id *id)
+static const struct usb_device_id *find_id(struct usb_device *udev)
 {
-	unsigned int i;
+	const struct usb_device_id *id = usb_quirk_list;
 
-	for (i = 0; i < udev->descriptor.bNumConfigurations; ++i) {
-		struct usb_host_config *cfg = &udev->config[i];
-		unsigned int j;
-
-		for (j = 0; j < cfg->desc.bNumInterfaces; ++j) {
-			struct usb_interface_cache *cache;
-			struct usb_host_interface *intf;
-
-			cache = cfg->intf_cache[j];
-			if (cache->num_altsetting == 0)
-				continue;
-
-			intf = &cache->altsetting[0];
-			if (usb_match_one_id_intf(udev, intf, id))
-				return true;
-		}
+	for (; id->idVendor || id->bDeviceClass || id->bInterfaceClass ||
+			id->driver_info; id++) {
+		if (usb_match_device(udev, id))
+			return id;
 	}
-
-	return false;
-}
-
-static u32 __usb_detect_quirks(struct usb_device *udev,
-			       const struct usb_device_id *id)
-{
-	u32 quirks = 0;
-
-	for (; id->match_flags; id++) {
-		if (!usb_match_device(udev, id))
-			continue;
-
-		if ((id->match_flags & USB_DEVICE_ID_MATCH_INT_INFO) &&
-		    !usb_match_any_interface(udev, id))
-			continue;
-
-		quirks |= (u32)(id->driver_info);
-	}
-
-	return quirks;
+	return NULL;
 }
 
 /*
