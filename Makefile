@@ -372,6 +372,8 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
+                   -Wno-maybe-uninitialized \
+                   -Wno-array-bounds \
                    -ffast-math -fsingle-precision-constant \
 		   -fgraphite-identity -floop-parallelize-all \
 		   -ftree-loop-linear -floop-interchange \
