@@ -23,6 +23,8 @@
 
 #define CPUFREQ_NAME_LEN 16
 
+#define CPUFREQ_NAME_PLEN (CPUFREQ_NAME_LEN + 1)
+
 
 /*********************************************************************
  *                     CPUFREQ NOTIFIER INTERFACE                    *
@@ -342,6 +344,7 @@ static inline unsigned int cpufreq_get(unsigned int cpu)
 unsigned int cpufreq_quick_get(unsigned int cpu);
 unsigned int cpufreq_quick_get_max(unsigned int cpu);
 unsigned int cpufreq_quick_get_util(unsigned int cpu);
+
 #else
 static inline unsigned int cpufreq_quick_get(unsigned int cpu)
 {
@@ -395,6 +398,12 @@ extern struct cpufreq_governor cpufreq_gov_dynamic;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_IMPULSE)
 extern struct cpufreq_governor cpufreq_gov_impulse;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_impulse)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_IMPULSEX)
+extern struct cpufreq_governor cpufreq_gov_impulsex;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_impulsex)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_INTELLIMM)
+extern struct cpufreq_governor cpufreq_gov_intellimm;
+#define CPUFREQ_DEFAULT_GOVERNOR        (&cpufreq_gov_intellimm)
 #endif
 
 
