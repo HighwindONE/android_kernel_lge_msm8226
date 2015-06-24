@@ -23,7 +23,10 @@
 /* 
  * Timeout for stopping processes
  */
+
 unsigned int __read_mostly freeze_timeout_msecs = 5 * MSEC_PER_SEC;
+
+#define TIMEOUT	(5 * HZ)
 
 static int try_to_freeze_tasks(bool user_only)
 {
