@@ -418,6 +418,8 @@ static void cpufreq_impulsex_timer(unsigned long data)
 			cpu_load >= go_hispeed_load;
 	this_hispeed_freq = max(hispeed_freq, pcpu->policy->min);
 
+	pufreq_notify_utilization(pcpu->policy, cpu_load);
+
 	if (cpu_load <= go_lowspeed_load && !boost_val) {
 		boosted = false;
 		new_freq = pcpu->policy->cpuinfo.min_freq;
