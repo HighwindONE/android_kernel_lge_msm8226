@@ -624,7 +624,12 @@ KBUILD_CFLAGS	+= -Ofast -marm \
 		  --param large-stack-frame-growth=3000 \
 		  --param gcse-cost-distance-ratio=30 \
 		  --param gcse-unrestricted-cost=0 \
-		  --param max-hoist-depth=0 
+		  --param max-hoist-depth=0 \
+		  --param sccvn-max-scc-size=30000 \
+		  --param sccvn-max-alias-queries-per-access=3000 \
+		  --param ira-max-loops-num=300 \
+		  --param max-vartrack-expr-depth=6 \
+		  --param max-stores-to-sink=6 
 
 endif
 
