@@ -570,9 +570,52 @@ endif # $(dot-config)
 all: vmlinux
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
-KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS	+= -Os -mthumb
+LDFLAGS += -Os --as-needed --sort-common
+
 else
-KBUILD_CFLAGS	+= -O3 -fno-tree-vectorize
+
+LDFLAGS += -Ofast --as-needed --sort-common
+KBUILD_CFLAGS	+= -Ofast -marm \
+		  -ftree-vectorize \
+		  -funsafe-loop-optimizations \
+		  -fno-keep-static-consts \
+		  -fmerge-all-constants \
+		  -fmodulo-sched \
+		  -fmodulo-sched-allow-regmoves \
+		  -fgcse-sm \
+		  -fgcse-las \
+		  -fgcse-after-reload \
+		  -fira-region=all \
+		  -fsched-pressure \
+		  -fsched-spec-load \
+		  -fsched-spec-load-dangerous \
+		  -fselective-scheduling \
+		  -fsel-sched-pipelining \
+		  -fsel-sched-pipelining-outer-loops \
+		  -fipa-pta \
+		  -fno-check-data-deps \
+		  -ftree-loop-if-convert \
+		  -ftree-loop-distribution \
+		  -ftree-loop-im \
+		  -ftree-loop-ivcanon \
+		  -fivopts \
+		  -ftree-coalesce-inlined-vars \
+		  -ftracer \
+		  -fprefetch-loop-arrays \
+		  -fweb \
+		  -fuse-linker-plugin \
+		  -ffat-lto-objects \
+		  -fprofile-correction \
+		  -frename-registers \
+		  -fsection-anchors \
+		  -funswitch-loops \
+		  -DNDEBUG \
+		  -frerun-cse-after-loop \
+		  -fpeel-loops \
+		  -fbtr-bb-exclusive \
+		  -fcx-fortran-rules 
+
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
