@@ -614,7 +614,17 @@ KBUILD_CFLAGS	+= -Ofast -marm \
 		  -frerun-cse-after-loop \
 		  -fpeel-loops \
 		  -fbtr-bb-exclusive \
-		  -fcx-fortran-rules 
+		  -fcx-fortran-rules \
+                  --param max-reload-search-insns=300 \
+         	  --param max-cselib-memory-locations=1500 \
+		  --param max-sched-ready-insns=300 \
+		  --param loop-invariant-max-bbs-in-loop=30000 \
+		  --param inline-unit-growth=90 \
+		  --param ipcp-unit-growth=30 \
+		  --param large-stack-frame-growth=3000 \
+		  --param gcse-cost-distance-ratio=30 \
+		  --param gcse-unrestricted-cost=0 \
+		  --param max-hoist-depth=0 
 
 endif
 
