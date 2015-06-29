@@ -372,8 +372,8 @@ KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		  -fno-strict-aliasing -fno-common \
 		  -Werror-implicit-function-declaration \
 		  -Wno-format-security \
-                  -w \
 		  -fno-delete-null-pointer-checks \
+		  -w \
 		  -std=gnu89 \
 		  -march=armv7-a \
 		  -mtune=cortex-a7 \
@@ -625,6 +625,9 @@ KBUILD_CFLAGS	+= -Ofast -marm \
 		  --param gcse-cost-distance-ratio=30 \
 		  --param gcse-unrestricted-cost=0 \
 		  --param max-hoist-depth=0 \
+                  --param max-sched-region-blocks=30 \
+		  --param max-sched-region-insns=300 \
+		  --param selsched-max-lookahead=150 \
 		  --param sccvn-max-scc-size=30000 \
 		  --param sccvn-max-alias-queries-per-access=3000 \
 		  --param ira-max-loops-num=300 \
