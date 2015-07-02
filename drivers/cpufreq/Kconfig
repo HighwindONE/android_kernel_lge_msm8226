@@ -141,7 +141,13 @@ config CPU_FREQ_DEFAULT_GOV_DYNAMIC
 	  Use the CPUFreq governor 'dynamic' as default. This allows
 	  you to get a full dynamic cpu frequency capable system by simply
 	  loading your cpufreq low-level hardware driver, using the
-	  'dynamic' governor for latency-sensitive workloads.	  
+	  'dynamic' governor for latency-sensitive workloads.
+
+config CPU_FREQ_DEFAULT_GOV_IMPULSE
+	bool "impulse"
+	select CPU_FREQ_GOV_IMPULSE
+	help
+	  Use the CPUFreq governor 'interactive' as default.
 	  
 endchoice
 
@@ -292,6 +298,14 @@ config CPU_FREQ_GOV_DYNAMIC
 
 	  To compile this driver as a module, choose M here: the
 	  module will be called cpufreq_dynamic.
+
+config CPU_FREQ_GOV_IMPULSE
+	tristate "'impulse' cpufreq policy governor"
+	help
+	  'impulse' - This driver adds a dynamic cpufreq policy governor
+	  designed for optimized balance between power and performance.
+
+	  If in doubt, say N.
 
 menu "x86 CPU frequency scaling drivers"
 depends on X86
