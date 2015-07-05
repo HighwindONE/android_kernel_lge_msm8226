@@ -1314,10 +1314,8 @@ unsigned int cpufreq_quick_get_util(unsigned int cpu)
 
 	return ret_util;
 }
-<<<<<<< HEAD
-=======
+
 EXPORT_SYMBOL(cpufreq_quick_get_util);
->>>>>>> 2be1dc6... Mako Hotplug and proper changes to make work this
 
 /**
  * cpufreq_quick_get - get the CPU frequency (in kHz) from policy->cur
