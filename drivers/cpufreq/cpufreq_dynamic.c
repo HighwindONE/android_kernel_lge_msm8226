@@ -556,17 +556,23 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 
 		cur_idle_time = get_cpu_idle_time(j, &cur_wall_time, &cur_io_time);
 
-		wall_time = (unsigned int) cputime64_sub(cur_wall_time,
-				j_dbs_info->prev_cpu_wall);
+	        /* Use cputime64_sub for older kernels */
+		// wall_time = (unsigned int) cputime64_sub(cur_wall_time,
+		//		j_dbs_info->prev_cpu_wall);
+		wall_time = (cur_wall_time - j_dbs_info->prev_cpu_wall);
 		j_dbs_info->prev_cpu_wall = cur_wall_time;
 
-		idle_time = (unsigned int) cputime64_sub(cur_idle_time,
-				j_dbs_info->prev_cpu_idle);
+	        /* Use cputime64_sub for older kernels */
+		// idle_time = (unsigned int) cputime64_sub(cur_idle_time
+		//		j_dbs_info->prev_cpu_idle);
+		idle_time = (unsigned int) (cur_idle_time - j_dbs_info->prev_cpu_idle);
 		j_dbs_info->prev_cpu_idle = cur_idle_time;
 
 		if (dbs_tuners_ins.io_is_busy != 1 || active == 0) {
-			unsigned int io_time = (unsigned int) cputime64_sub(cur_io_time,
-					j_dbs_info->prev_cpu_io);
+	        /* Use cputime64_sub for older kernels */
+		//	unsigned int io_time = (unsigned int) cputime64_sub(cur_io_time,
+		//			j_dbs_info->prev_cpu_io);
+			unsigned int io_time = (unsigned int)(cur_io_time - j_dbs_info->prev_cpu_io);
 			j_dbs_info->prev_cpu_io = cur_io_time;
 
 			if (dbs_tuners_ins.io_is_busy == 0 || active == 0)
@@ -585,9 +591,11 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 				) {
 			cputime64_t cur_nice;
 			unsigned long cur_nice_jiffies;
+	                /* Use cputime64_sub for older kernels */
+			// cur_nice = cputime64_sub(kcpustat_cpu(j).cpustat[CPUTIME_NICE],
+			//		 j_dbs_info->prev_cpu_nice);
+			cur_nice = kcpustat_cpu(j).cpustat[CPUTIME_NICE] - j_dbs_info->prev_cpu_nice;
 
-			cur_nice = cputime64_sub(kcpustat_cpu(j).cpustat[CPUTIME_NICE],
-					 j_dbs_info->prev_cpu_nice);
 			/*
 			 * Assumption: nice time between sampling periods will
 			 * be less than 2^32 jiffies for 32 bit sys
@@ -596,7 +604,7 @@ static void dbs_check_cpu(struct cpu_dbs_info_s *this_dbs_info)
 					cputime64_to_jiffies64(cur_nice);
 			idle_time += jiffies_to_usecs(cur_nice_jiffies);
 		}
-j_dbs_info->prev_cpu_nice = kcpustat_cpu(j).cpustat[CPUTIME_NICE];
+                j_dbs_info->prev_cpu_nice = kcpustat_cpu(j).cpustat[CPUTIME_NICE];
 		if (unlikely(!wall_time || wall_time < idle_time))
 			continue;
 
